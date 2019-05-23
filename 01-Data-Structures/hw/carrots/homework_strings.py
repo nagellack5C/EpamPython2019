@@ -33,6 +33,8 @@ P.S. За незакрытый файловый дескриптор - кара�
 
 """
 
+from matplotlib import pyplot
+
 # read the file dna.fasta
 with open("files/dna.fasta") as dna_file:
     dna_lines = [line.replace("\n", "") for line in dna_file.readlines()]
@@ -65,13 +67,14 @@ def translate_from_dna_to_rna(dna):
 
 def count_nucleotides(dna):
 
+
+
     num_of_nucleotides = f'G - {dna.count("G")}, ' \
                          f'A - {dna.count("A")}, ' \
                          f'T - {dna.count("T")}, ' \
                          f'C - {dna.count("C")}'
     
     return num_of_nucleotides
-
 
 def translate_rna_to_protein(rna):
     
@@ -104,3 +107,23 @@ with open("nucl_stats.txt", "w") as nucl_stats,\
         prot_prettified = [prot[i:i + 40] for i in range(0, len(prot), 40)]
         for line in prot_prettified:
             proteins.write(" ".join(line) + "\n")
+
+
+def nucleotides_plot(gene, dna):
+    nucleotides_dict = {
+        "G": dna.count("G"),
+        "A": dna.count("A"),
+        "T": dna.count("T"),
+        "C": dna.count("C")
+    }
+
+    pyplot.bar(list("GATC"), nucleotides_dict.values(), color='g')
+    pyplot.xlabel("Nucleotide Name")
+    pyplot.ylabel("Quantity in Gene")
+    pyplot.title(gene + " - Nucleotide Stats")
+    pyplot.savefig(gene + " - Histogram")
+    pyplot.close()
+
+
+for gene in genes:
+    nucleotides_plot(gene, dna[gene])
