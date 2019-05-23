@@ -66,9 +66,6 @@ def translate_from_dna_to_rna(dna):
 
 
 def count_nucleotides(dna):
-
-
-
     num_of_nucleotides = f'G - {dna.count("G")}, ' \
                          f'A - {dna.count("A")}, ' \
                          f'T - {dna.count("T")}, ' \
@@ -76,8 +73,8 @@ def count_nucleotides(dna):
     
     return num_of_nucleotides
 
+
 def translate_rna_to_protein(rna):
-    
     index = 3
     protein = []
     while index <= len(rna):
@@ -109,19 +106,19 @@ with open("nucl_stats.txt", "w") as nucl_stats,\
             proteins.write(" ".join(line) + "\n")
 
 
-def nucleotides_plot(gene, dna):
+def nucleotides_plot(gene_name, dna_seq):
     nucleotides_dict = {
-        "G": dna.count("G"),
-        "A": dna.count("A"),
-        "T": dna.count("T"),
-        "C": dna.count("C")
+        "G": dna_seq.count("G"),
+        "A": dna_seq.count("A"),
+        "T": dna_seq.count("T"),
+        "C": dna_seq.count("C")
     }
 
     pyplot.bar(list("GATC"), nucleotides_dict.values(), color='g')
     pyplot.xlabel("Nucleotide Name")
     pyplot.ylabel("Quantity in Gene")
-    pyplot.title(gene + " - Nucleotide Stats")
-    pyplot.savefig(gene + " - Histogram")
+    pyplot.title(gene_name + " - Nucleotide Stats")
+    pyplot.savefig(gene_name + " - Histogram")
     pyplot.close()
 
 
