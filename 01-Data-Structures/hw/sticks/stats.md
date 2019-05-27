@@ -1,5 +1,7 @@
 ##Wine Stats!
+
 ####Stats for selected varieties:
+
 ######Gewürztraminer
  * **average_price**: *26.3*
  * **min_price**: *6*
