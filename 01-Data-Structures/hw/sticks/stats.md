@@ -1,9 +1,6 @@
 ##Wine Stats!
-
 ####Stats for selected varieties:
-
 ######Gewürztraminer
-
  * **average_price**: *26.3*
  * **min_price**: *6*
  * **max_price**: *197*
@@ -11,7 +8,6 @@
  * **most_common_country**: *France*
  * **average_score**: *88.6*
 ######Riesling
-
  * **average_price**: *32.0*
  * **min_price**: *5*
  * **max_price**: *775*
@@ -19,7 +15,6 @@
  * **most_common_country**: *Germany*
  * **average_score**: *89.4*
 ######Merlot
-
  * **average_price**: *29.5*
  * **min_price**: *4*
  * **max_price**: *625*
@@ -27,7 +22,6 @@
  * **most_common_country**: *US*
  * **average_score**: *87.2*
 ######Madera
-
  * **average_price**: *0*
  * **min_price**: *0*
  * **max_price**: *0*
@@ -35,7 +29,6 @@
  * **most_common_country**: *0*
  * **average_score**: *0*
 ######Tempranillo
-
  * **average_price**: *31.2*
  * **min_price**: *4*
  * **max_price**: *600*
@@ -43,7 +36,6 @@
  * **most_common_country**: *Spain*
  * **average_score**: *87.5*
 ######Red Blend
-
  * **average_price**: *35.9*
  * **min_price**: *5*
  * **max_price**: *500*
