@@ -222,12 +222,16 @@ min_price = -1
 for i in winedata_full:
     if i["price"] == max_price:
         max_prices.append(i["title"])
+    else:
+        break
 for i in winedata_full[::-1]:
     if i["price"] is None:
         continue
     elif min_price == -1 or min_price == i["price"]:
         min_price = i["price"]
         min_prices.append(i["title"])
+    else:
+        break
 for wine in stats_common["winescores"]:
     stats_common["winescores"][wine] = get_avg_arr(
         stats_common["winescores"][wine])
@@ -318,10 +322,10 @@ of.close()
 
 with open("stats.md", "w", encoding="utf-8") as f:
     # making a markdown file from stats
-    f.write("##Wine Stats!\n")
-    f.write("####Stats for selected varieties:\n")
+    f.write("##Wine Stats!\n\n")
+    f.write("####Stats for selected varieties:\n\n")
     for wine in statistics["statistics"]["wine"]:
-        f.write("#"*6 + wine + "\n")
+        f.write("#"*6 + wine + "\n\n")
         for key in statistics["statistics"]["wine"][wine]:
             f.write(" * **" + key + "**: *" +
                     str(statistics["statistics"]["wine"][wine][key]) +
