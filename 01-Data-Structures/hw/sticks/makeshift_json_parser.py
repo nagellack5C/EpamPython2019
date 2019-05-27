@@ -1,3 +1,7 @@
+import time
+
+start = time.time()
+
 class SimpleJsonParser:
     json_str = ""
     keys = []
@@ -72,9 +76,10 @@ winedata_full = sorted(winedata_full,
                        if x["price"] is not None else 0,
                        reverse=True)
 
+print(time.time() - start)
 
 def save_formatted_json(json_arr, filename):
-    with open(filename + ".json", "w", encoding="utf-8") as wff:
+    with open(filename + ".json", "w") as wff:
         wff.write("[\n")
         for index, i in enumerate(json_arr):
             wff.write("   {\n")
@@ -84,7 +89,19 @@ def save_formatted_json(json_arr, filename):
                 if val is None:
                     val = "null"
                 else:
+                    if "This offers generous tones of cherry" in val:
+                        print(val)
+                        print(repr(val))
+                    val = val.replace('\\"', '"')
+                    val = val.replace("\r", "\\r")
+                    val = val.replace("\t", "\\t")
+                    val = val.replace("\\T", "T")
+                    val = val.replace("\n", "\\n")
+                    val = val.replace('"', '\\"')
                     val = '"' + val + '"'
+                    if "This offers generous tones of cherry" in val:
+                        print(val)
+                        print(repr(val))
                 wff.write(val)
                 if key_index < len(list(i.keys())) - 1:
                     wff.write(",\n")
@@ -269,3 +286,5 @@ print("worst country: ",
       [x for x in country_scores if x[1] == cs_min[1]])
 print("most active reviewer: ",
       max_min_from_dict(stats_common["commentators"])[0])
+
+print(statistics)
