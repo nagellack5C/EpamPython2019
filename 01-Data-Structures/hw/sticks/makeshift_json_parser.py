@@ -136,7 +136,8 @@ for wine in wines_explored:
 
 stats_short = {}
 # collecting all values to count averages etc. and store them in
-# statistics dict
+# statistics dict; all stats calculated for the whole set will be
+# represented as lists to satisfy the collision requirement
 for wine in wines_explored:
     stats_short[wine] = {
         "prices": [],
