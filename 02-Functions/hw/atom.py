@@ -23,7 +23,10 @@ def atom(val = None):
 
     def get_value():
         nonlocal val
-        print(val)
+        try:
+            print(val)
+        except Exception:
+            print("haha it's gone")
 
     def set_value(new_val):
         nonlocal val
@@ -33,13 +36,27 @@ def atom(val = None):
     def process_value(*args):
         nonlocal val
         for func in args:
-            func(val)
+            val = func(val)
         return val
 
-    return get_value, set_value
+    def delete_value():
+        nonlocal val
+        del val
+
+    return get_value, set_value, process_value, delete_value
 
 
-gv, sv = atom(3)
+# tests
+
+gv, sv, pv, dv = atom(13)
 gv()
 sv(100500)
+
+multiply = lambda x: x * 2
+increase = lambda x: x + 2
+
+gv()
+pv(multiply, increase)
+gv()
+dv()
 gv()
