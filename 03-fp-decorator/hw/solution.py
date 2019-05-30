@@ -54,10 +54,9 @@ assert is_armstrong(10) == False, 'Не число Армстронга'
 # hw3
 
 def collatz_steps(n):
-    if isinstance(n, int) and n > 0:
-        return n-1 if n == 1 else 1 + collatz_steps(n // 2) if n % 2 == 0 else 1 + collatz_steps(n * 3 + 1)
+    return "bad value!" if not isinstance(n, int) or n < 1 else n-1 if n == 1 else 1 + collatz_steps(n // 2) if n % 2 == 0 else 1 + collatz_steps(n * 3 + 1)
 
-print(collatz_steps(12))
+print(collatz_steps(33))
 
 # assert collatz_steps(16) == 4
 # assert collatz_steps(12) == 9
