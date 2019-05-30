@@ -31,8 +31,8 @@ print(euclid)
 # of the following expression.
 # d1 × d10 × d100 × d1000 × d10000 × d100000 × d1000000
 # solution:
-val = reduce(lambda x, y: int(x) * int(y), [i[1] for i in enumerate(list("".join([str(i) for i in range(1, 1000001)])), 1) if i[0] in [10**j for j in range(6)]])
-print(val)
+# val = reduce(lambda x, y: int(x) * int(y), [i[1] for i in enumerate(list("".join([str(i) for i in range(1, 1000001)])), 1) if i[0] in [10**j for j in range(6)]])
+# print(val)
 
 # problem 48:
 # The series, 1^1 + 2^2 + 3^3 + ... + 10^10 = 10405071317.
@@ -40,3 +40,14 @@ print(val)
 # solution:
 last_ten = reduce(lambda x, y: x + y ** y, range(1, 1001)) % (10 ** 10)
 print(last_ten)
+
+
+# ------------------------------------------------------
+
+# hw2
+def is_armstrong(number):
+    return number == sum(list(map(lambda x: int(x)**len(str(number)), list(str(number)))))
+
+assert is_armstrong(153) == True, 'Число Армстронга'
+assert is_armstrong(10) == False, 'Не число Армстронга'
+
