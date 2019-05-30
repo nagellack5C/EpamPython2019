@@ -1,5 +1,4 @@
 from functools import reduce
-from time import time
 from timeit import timeit
 
 # hw1
