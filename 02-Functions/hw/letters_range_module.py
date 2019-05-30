@@ -35,15 +35,9 @@ def letters_range(*args, **kwargs):
         step = args[2]
         return alphabet[start:stop:step]
 
+
 print(letters_range("b"))
 print(letters_range("b", "j"))
 print(letters_range("b", "j", 2))
 print(letters_range("j", "b", **{'l': 7, 'o': 0}))
 print(letters_range("k", "z", **{'l': 7, 'o': 0}))
-
-
-def test(**kwargs):
-    print(kwargs)
-
-
-print([i for i in range(10, -1)])
