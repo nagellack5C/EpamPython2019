@@ -51,3 +51,13 @@ def is_armstrong(number):
 assert is_armstrong(153) == True, 'Число Армстронга'
 assert is_armstrong(10) == False, 'Не число Армстронга'
 
+# hw3
+
+def collatz_steps(n):
+    return n-1 if n == 1 else 1 + collatz_steps(n // 2) if n % 2 == 0 else 1 + collatz_steps(n * 3 + 1)
+
+print(collatz_steps(12))
+
+# assert collatz_steps(16) == 4
+# assert collatz_steps(12) == 9
+# assert collatz_steps(1000000) == 152
