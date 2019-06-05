@@ -36,7 +36,6 @@ class User:
     pass
 
 
-
 if __name__ == '__main__':
 
     print(User.get_created_instances())  # 0
