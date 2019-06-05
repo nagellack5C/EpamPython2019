@@ -19,7 +19,13 @@ import functools
 
 
 def print_result(func):
-    # Place for new decorator
+    def saver(wrapper):
+        wrapper.__doc__ = func.__doc__
+        wrapper.__name__ = func.__name__
+        setattr(wrapper, "__original_func", func)
+        return wrapper
+
+    @saver
     def wrapper(*args, **kwargs):
         """Function-wrapper which print result of an original function"""
         result = func(*args, **kwargs)
