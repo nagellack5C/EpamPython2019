@@ -40,6 +40,4 @@ if __name__ == '__main__':
     print(User.get_created_instances())  # 0
     user, _, _ = User(), User(), User()
     print("must be 3:", user.get_created_instances())  # 3
-    user, _, _ = User(), User()
-    print("must be 6:", user.get_created_instances())  # 3
     user.reset_instances_counter()  # 3
