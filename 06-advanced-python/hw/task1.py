@@ -1,5 +1,6 @@
 """
-Реализовать метод __str__, позволяющий выводить все папки и файлы из данной, например так:
+Реализовать метод __str__, позволяющий выводить все папки и файлы из данной,
+например так:
 
 > print(folder1)
 
@@ -38,7 +39,8 @@ class PrintableFolder:
         elif item in self.content:
                 return True
         else:
-            for folder in filter(lambda f: isinstance(f, PrintableFolder), self.content):
+            for folder in filter(lambda f: isinstance(f, PrintableFolder),
+                                 self.content):
                 if item in folder:
                     return True
         return False
