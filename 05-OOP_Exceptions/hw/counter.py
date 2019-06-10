@@ -11,21 +11,20 @@ reset_instances_counter - сбросить счетчик экземпляров
 
 
 def instances_counter(cls):
-    count = 0
-
     class Enhanced(cls):
+        count = 0
 
-        def __init__(self):
-            nonlocal count
-            count += 1
+        def __new__(cls, *args, **kwargs):
+            cls.count += 1
+            return super().__new__(cls)
 
-        def get_created_instances(self=None):
-            nonlocal count
-            return count
+        @classmethod
+        def get_created_instances(cls):
+            return cls.count
 
-        def reset_instances_counter(self):
-            nonlocal count
-            oldcount, count = count, 0
+        @classmethod
+        def reset_instances_counter(cls):
+            oldcount, cls.count = cls.count, 0
             return oldcount
 
     return Enhanced
@@ -41,4 +40,6 @@ if __name__ == '__main__':
     print(User.get_created_instances())  # 0
     user, _, _ = User(), User(), User()
     print("must be 3:", user.get_created_instances())  # 3
+    user, _, _ = User(), User()
+    print("must be 6:", user.get_created_instances())  # 3
     user.reset_instances_counter()  # 3

@@ -94,7 +94,7 @@ class Teacher(Person):
         if hw:
             cls.homework_done.pop(hw)
         else:
-            cls.homework_done = defaultdict()
+            cls.homework_done.clear()
 
 
 class Homework:

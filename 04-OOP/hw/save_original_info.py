@@ -6,11 +6,13 @@
 print_result изменять нельзя, за исключением добавления вашего
 декоратора на место отведенное под него
 
-В конечном варанте кода будет вызываться AttributeError при custom_sum.__original_func
+В конечном варанте кода будет вызываться AttributeError
+при custom_sum.__original_func
 Это корректное поведение
 
 Ожидаемый результат:
-print(custom_sum.__doc__)  # 'This function can sum any objects which have __add___'
+print(custom_sum.__doc__)  # 'This function can sum any
+objects which have __add___'
 print(custom_sum.__name__)  # 'custom_sum'
 print(custom_sum.__original_func)  # <function custom_sum at <some_id>>
 """
@@ -22,8 +24,10 @@ def print_result(func):
     def saver(wrapper):
         wrapper.__doc__ = func.__doc__
         wrapper.__name__ = func.__name__
-        setattr(wrapper, "__original_func", func)
+        wrapper.__original_func = func
         return wrapper
+    return saver_decorator
+
 
     @saver
     def wrapper(*args, **kwargs):
