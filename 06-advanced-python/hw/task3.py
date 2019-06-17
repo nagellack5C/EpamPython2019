@@ -23,6 +23,7 @@ class ShiftDescriptor:
             raise ValueError("Only ASCII letters in string!")
         self.value = value
 
+
 if __name__ == "__main__":
     class Caesar:
         cypher = ShiftDescriptor(7)
