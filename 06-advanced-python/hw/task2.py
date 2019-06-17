@@ -11,6 +11,15 @@ E - dict(<V> : [<V>, <V>, ...])
 class Graph:
 
     def __init__(self, E):
+        if not isinstance(E, dict) or len(E) < 1:
+            raise TypeError("Please supply non-empty dict")
+        if any([not isinstance(x, list) for x in E.values()]):
+            raise TypeError("Values must be lists!")
+        # optional validation of graph connectivity
+        # graph_keys = E.keys()
+        # graph_values = set(x for i in E.values() for x in i)
+        # if graph_keys != graph_values:
+        #     raise AttributeError("List is not connected!")
         self.E = E
 
     def __iter__(self):
@@ -30,11 +39,8 @@ class Graph:
         return self.verts[self.iter_index]
 
 
-E = {'A': ['B', 'C', 'D'], 'B': ['C'], 'C': ['E', 'G'], 'E': ['A'], 'G': [], 'D': ['A']}
-# for i in E:
-#     print(i)
-graph = Graph(E)
-
-for vertice in graph:
-    print(vertice)
-    # break
+if __name__ == "__main__":
+    E = {'A': ['B', 'C', 'D'], 'B': ['C'], 'C': ['E', 'G'], 'E': ['A'], 'G': [], 'D': ['A']}
+    # E = {1: [], 2: []}
+    graph = Graph(E)
+    print([vert for vert in graph])
