@@ -23,9 +23,17 @@ class Graph:
         self.E = E
 
     def __iter__(self):
+        return GraphIterator(self)
+
+
+class GraphIterator:
+    def __init__(self, graph):
+        self.E = graph.E
         first_key = list(self.E.keys())[0]
         self.verts = [first_key] + self.E[first_key]
         self.iter_index = -1
+
+    def __iter__(self):
         return self
 
     def __next__(self):
