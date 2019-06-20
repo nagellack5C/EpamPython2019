@@ -6,11 +6,11 @@ E - dict(<V> : [<V>, <V>, ...])
 Сделать так, чтобы по графу можно было итерироваться(обходом в ширину)
 
 """
-
+from time import time
 
 class Graph:
 
-    def __init__(self, E):
+    def __init__(self, E, mode):
         if not isinstance(E, dict) or len(E) < 1:
             raise TypeError("Please supply non-empty dict")
         if any([not isinstance(x, list) for x in E.values()]):
@@ -21,12 +21,16 @@ class Graph:
         # if graph_keys != graph_values:
         #     raise AttributeError("List is not connected!")
         self.E = E
+        self.mode = mode
 
     def __iter__(self):
-        return GraphIterator(self)
+        if self.mode == "S":
+            return GraphIteratorStaticVerts(self)
+        else:
+            return GraphIteratorDynamicVerts(self)
 
 
-class GraphIterator:
+class GraphIteratorDynamicVerts:
     def __init__(self, graph):
         self.E = graph.E
         first_key = list(self.E.keys())[0]
@@ -47,8 +51,48 @@ class GraphIterator:
         return self.verts[self.iter_index]
 
 
+class GraphIteratorStaticVerts:
+    def __init__(self, graph):
+        self.E = graph.E
+        first_key = list(self.E.keys())[0]
+        self.verts = [first_key]
+        self.iter_index = 0
+        self.list_builder(first_key)
+
+    def list_builder(self, key):
+        if key not in self.verts:
+            self.verts += self.E[key]
+        new_verts = []
+        for vert in self.E[key]:
+            if vert not in self.verts:
+                self.verts.append(vert)
+                new_verts.append(vert)
+        for vert in new_verts:
+            self.list_builder(vert)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.iter_index + 1 < len(self.verts):
+            self.iter_index += 1
+            return self.verts[self.iter_index - 1]
+        else:
+            raise StopIteration
+
+
 if __name__ == "__main__":
     E = {'A': ['B', 'C', 'D'], 'B': ['C'], 'C': ['E', 'G'], 'E': ['A'], 'G': [], 'D': ['A']}
     # E = {1: [], 2: []}
-    graph = Graph(E)
-    print([vert for vert in graph])
+
+    start = time()
+    for i in range(100000):
+        graph_s = Graph(E, "S")
+        x = [vert for vert in graph_s]
+    print("execution time", time() - start)
+
+    start = time()
+    for i in range(100000):
+        graph_d = Graph(E, "d")
+        x = [vert for vert in graph_d]
+    print("execution time", time() - start)
