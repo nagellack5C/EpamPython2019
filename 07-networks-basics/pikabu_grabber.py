@@ -1,53 +1,45 @@
 import requests
 import pikabu_headers
-import time
+import re
+from collections import defaultdict
 
 class PikabuGrabber:
-    PKB_GET_HEADERS = pikabu_headers.PKB_GET_HEADERS
-    HEADERS_LOGIN = pikabu_headers.HEADERS_LOGIN_2
+    HEADERS_PAGING = pikabu_headers.HEADERS_PAGING
     HOME = "https://pikabu.ru"
 
-    def __init__(self, username, password):
+    def __init__(self):
         self.session = requests.Session()
-        # self.session.headers = self.PKB_GET_HEADERS
-        self.get_main()
-        self.auth(username, password)
+        self.post_counter = 0
+        self.tags = defaultdict(int)
+        self.session.headers = self.HEADERS_PAGING
 
-    def get_main(self):
-        get = self.session.get(self.HOME)
-        # print(get.text)
-        # print(self.session.cookies)
-        self.csrf = get.text.split('"sessionID":"')[1].split('","')[0]
+    def collect_posts(self, page):
+        url = f"https://pikabu.ru/?twitmode=1&of=v2&page={page}"
+        paging_resp = self.session.get(url)
+        paging_resp.encoding = "utf-8"
+        stories = paging_resp.json()["data"]["stories"]
+        for story in stories:
+            print(story["id"])
+            if self.post_counter < 100:
+                self.post_counter += 1
+                tags = re.findall(r'(data-tag=")([^"]*?)(")', story["html"])
+                for tag in [i[1] for i in tags]:
+                    self.tags[tag] += 1
+            else:
+                break
 
-    def auth(self, username, password):
-        data = pikabu_headers.LOGIN_PAYLOAD
+    def get_stats(self):
+        i = 1
+        while self.post_counter < 100:
+            self.collect_posts(i)
+            i += 1
+            print(self.post_counter)
 
-        self.session.headers = self.HEADERS_LOGIN
-        self.session.headers["x-csrf-token"] = self.csrf
-        print("posting auth...")
-        post = self.session.post("https://pikabu.ru/ajax/auth.php",
-                                 data=data)
-        print(post.text)
-        print(post.cookies)
-        print(self.ppd(post.request.headers))
-        # self.session.headers.update(self.PKB_GET_HEADERS)
-        self.session.headers = self.PKB_GET_HEADERS
-        print(self.session.cookies)
-        time.sleep(2)
-        print("auth posted! getting page...")
-        # print(self.session.cookies)
-        if "dasgeschaft" in self.session.get(self.HOME).text:
-            print("Success!")
-        else:
-            print("da yebaniy v rot blya")
-        # print(self.session.get(self.HOME).text)
-
-    @staticmethod
-    def ppd(dict):
-        for i in dict:
-            print(f"{i}: {dict[i]}")
+        tags = sorted(self.tags, key=lambda x: self.tags[x], reverse=True)
+        with open("tags_stats.txt", "w", encoding="utf-8") as tags_stats:
+            for tag in tags[:10]:
+                tags_stats.write(f"{tag}: {self.tags[tag]}\n")
 
 
-pg = PikabuGrabber("test", "test")
-# pg.test()
-# print(pg.HEADERS_LOGIN)
+pg = PikabuGrabber()
+pg.get_stats()
