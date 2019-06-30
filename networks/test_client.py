@@ -1,8 +1,6 @@
 from socket import *
-import time
 import threading
 import sys
-import os
 
 
 class Client:
