@@ -57,6 +57,15 @@ class ConcreteLunchFactory(AbstractLunchFactory):
         return ChinaLunch(self.day)
 
 
+class Meal:
+
+    def __init__(self, day, menu, kind):
+        self.meal_name = get_meal(day, menu, kind)
+
+    def __str__(self):
+        return self.meal_name
+
+
 class AbstractLunch(ABC):
 
     def __init__(self, day):
@@ -113,14 +122,6 @@ class ChinaLunch(AbstractLunch):
 
     def create_drink(self):
         self.meals.append(Meal(self.day, "china", "drink"))
-
-class Meal:
-
-    def __init__(self, day, menu, kind):
-        self.meal_name = get_meal(day, menu, kind)
-
-    def __str__(self):
-        return self.meal_name
 
 
 if __name__ == "__main__":
