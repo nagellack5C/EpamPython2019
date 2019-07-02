@@ -1,32 +1,48 @@
 from socket import *
-import time
 import threading
-# import q
+import sys
 
 
+class Client:
 
-def start_client():
-    cl_s = socket(AF_INET, SOCK_STREAM)
-    cl_s.connect(("", 9000))
-    return cl_s
+    def __init__(self, port):
+        self.port = port
+        self.c_socket = None
+        self.id = None
 
-def chatter(socket):
-    while True:
-        msg = input("Your message: ")
-        socket.send(bytes(msg, encoding="utf-8"))
-        if msg == "":
-            socket.close()
-            break
+    def start(self):
+        self.c_socket = self.connect(self.port)
+        self.id = str(self.c_socket.getsockname()[1])
+        print("Start typing")
+        chtr = threading.Thread(target=self.chatter)
+        rcvr = threading.Thread(target=self.receiver)
+        chtr.start()
+        rcvr.start()
 
-# def start_chat(socket):
-#     while True:
-#         msg = input("Your message: ")
-#         # print(socket)
-#         # sleep(5)
-#         # print(socket)
-#         # data = cl_s.recv(10000)
-#     # print(data)
-#     cl_s.close()
+    def connect(self, port):
+        c_socket = socket(AF_INET, SOCK_STREAM)
+        c_socket.connect(("", port))
+        return c_socket
+
+    def chatter(self):
+        while True:
+            msg = input()
+            if msg == "":
+                self.c_socket.send(b"\\quit\\")
+                print("quitting...")
+                break
+            self.c_socket.send(bytes(msg, encoding="utf-8"))
+
+    def receiver(self):
+        while True:
+            data = self.c_socket.recv(1000)
+            if data == b"\\You have left the chat!\\":
+                break
+            data = str(data, encoding="utf-8")
+            if self.id not in data:
+                print(data)
 
 
-chatter(start_client())
+port = int(sys.argv[1])
+client = Client(port)
+client.start()
