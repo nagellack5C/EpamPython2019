@@ -9,14 +9,42 @@ class Component:
         raise NotImplementedError("Override get_cost method")
 
 
-class BaseCoffe(Component):
+class BaseCoffee(Component):
     def get_cost(self):
         return 90
 
 
+class Decorator(Component):
+    _component = None
+
+    def __init__(self, component):
+        self._component = component
+
+    def add_cost(self):
+        raise NotImplementedError("Override add_cost method")
+
+    def get_cost(self):
+        return self.add_cost() + self._component.get_cost()
+
+
+class Whip(Decorator):
+    def add_cost(self):
+        return 30
+
+
+class Marshmallow(Decorator):
+    def add_cost(self):
+        return 40
+
+
+class Syrup(Decorator):
+    def add_cost(self):
+        return 50
+
+
 if __name__ == "__main__":
-    coffe = BaseCoffe()
-    coffe = Whip(coffe)
-    coffe = Marshmallow(coffe)
-    coffe = Syrup(coffe)
-    print("Итоговая стоимость за кофе: {}".format(str(coffe.get_cost())))
+    coffee = BaseCoffee()
+    coffee = Whip(coffee)
+    coffee = Marshmallow(coffee)
+    coffee = Syrup(coffee)
+    print("Итоговая стоимость за кофе: {}".format(str(coffee.get_cost())))
