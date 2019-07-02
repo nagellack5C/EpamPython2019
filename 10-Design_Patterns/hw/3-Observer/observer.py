@@ -49,3 +49,65 @@ Dear John, there is new playlist on 'All about dogs' channel: 'Dogs nutrition'
 Dear Erica, there is new playlist on 'All about dogs' channel: 'Dogs nutrition'
 
 """
+from collections import defaultdict
+
+
+class MyTubeChannel:
+
+    def __init__(self, name, owner):
+        self.name = name
+        self.owner = owner
+        self.playlists = defaultdict(list)
+        self.playlists["Main"] = []
+        self.subscribers = []
+
+    def subscribe(self, user):
+        self.subscribers.append(user)
+
+    def publish(self, obj):
+        if isinstance(obj, str):
+            upd_type = "video"
+            upd_name = obj
+        else:
+            upd_type = "playlist"
+            upd_name = list(obj.keys())[0]
+        for sub in self.subscribers:
+            upd_str = f"there is a new {upd_type}" \
+                f" on {self.name} channel: '{upd_name}'"
+            sub.update(upd_str)
+
+    def publish_video(self, video):
+        self.playlists["Main"].append(video)
+        self.publish(video)
+
+    def publish_playlist(self, playlist):
+        self.playlists.update(playlist)
+        self.publish(playlist)
+
+
+class MyTubeUser:
+
+    def __init__(self, name):
+        self._name = name
+
+    def update(self, message):
+        # the subscriber doesn't know what types of date are implemented;
+        # it just wants to print the message out
+        print(f"Dear {self._name}, " + message)
+
+
+matt = MyTubeUser('Matt')
+john = MyTubeUser('John')
+erica = MyTubeUser('Erica')
+
+dogs_life = MyTubeChannel('All about dogs', matt)
+dogs_life.subscribe(john)
+dogs_life.subscribe(erica)
+
+dogs_nutrition_videos = ['What do dogs eat?', 'Which Pedigree pack to choose?']
+dogs_nutrition_playlist = {'Dogs nutrition': dogs_nutrition_videos}
+
+for video in dogs_nutrition_videos:
+    dogs_life.publish_video(video)
+
+dogs_life.publish_playlist(dogs_nutrition_playlist)
