@@ -135,8 +135,8 @@ if __name__ == "__main__":
     print(lunch_1)
     print("--------")
 
-
     lunch_factory_2 = ConcreteLunchFactory("Monday")
+
     lunch_2 = lunch_factory_2.create_child_lunch()
     lunch_2.create_first_meal()
     lunch_2.create_second_meal()

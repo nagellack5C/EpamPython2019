@@ -107,6 +107,7 @@ def client_code(documents_handler):
     print(document_ids)
     print(documents_handler.get_documents(document_ids[1]))
 
+
 class Adapter:
 
     def __init__(self, doc_handler):

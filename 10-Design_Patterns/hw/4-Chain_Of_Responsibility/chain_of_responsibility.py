@@ -24,7 +24,7 @@ class FridgeHandler:
         self._next_handler = handler
         return handler
 
-    def handle(self, fridge, history = None):
+    def handle(self, fridge, history=None):
         if not history:
             history = []
         if fridge[self.food_type] < self.amount:
@@ -35,9 +35,10 @@ class FridgeHandler:
             if not history:
                 print("You're good! Go bake!!!")
             else:
-                print("You're missing something. Go shopping and by the following:")
+                print("You're missing something. Go shopping and buy the following:")
                 for h in history:
                     print(h)
+
 
 perfect_fridge = {
     "eggs": 2,
@@ -56,8 +57,6 @@ bad_fridge = {
     "oil": 0,
     "butter": 1200
 }
-
-
 
 eggs_handler = FridgeHandler("eggs", 2)
 dough_handler = FridgeHandler("dough", 300)
