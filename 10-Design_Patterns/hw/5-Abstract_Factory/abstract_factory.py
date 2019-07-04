@@ -26,37 +26,6 @@ def get_meal(day, menu, kind):
             if menu in i:
                 return i.split(": ")[1][1:-2]
 
-
-class AbstractLunchFactory(ABC):
-
-    @abstractmethod
-    def create_vegan_lunch(self):
-        pass
-
-    @abstractmethod
-    def create_child_lunch(self):
-        pass
-
-    @abstractmethod
-    def create_china_lunch(self):
-        pass
-
-
-class ConcreteLunchFactory(AbstractLunchFactory):
-
-    def __init__(self, day):
-        self.day = day
-
-    def create_vegan_lunch(self):
-        return VeganLunch(self.day)
-
-    def create_child_lunch(self):
-        return ChildLunch(self.day)
-
-    def create_china_lunch(self):
-        return ChinaLunch(self.day)
-
-
 class Meal:
 
     def __init__(self, day, menu, kind):
@@ -125,9 +94,8 @@ class ChinaLunch(AbstractLunch):
 
 
 if __name__ == "__main__":
-    lunch_factory = ConcreteLunchFactory("Tuesday")
+    lunch_1 = VeganLunch("Tuesday")
 
-    lunch_1 = lunch_factory.create_china_lunch()
     lunch_1.create_first_meal()
     lunch_1.create_second_meal()
     lunch_1.create_drink()
@@ -135,9 +103,8 @@ if __name__ == "__main__":
     print(lunch_1)
     print("--------")
 
-    lunch_factory_2 = ConcreteLunchFactory("Monday")
+    lunch_2 = ChildLunch("Monday")
 
-    lunch_2 = lunch_factory_2.create_child_lunch()
     lunch_2.create_first_meal()
     lunch_2.create_second_meal()
     lunch_2.create_drink()
